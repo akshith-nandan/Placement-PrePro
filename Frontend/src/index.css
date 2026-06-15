@@ -2,49 +2,187 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply bg-slate-50 text-slate-800 font-sans;
+/* Global Styles */
+html {
+  scroll-behavior: smooth;
 }
 
-.dark body {
+body {
+  @apply bg-slate-100 text-slate-800 font-sans antialiased transition-colors duration-300;
+}
+
+/* Dark Mode */
+.dark {
   @apply bg-slate-900 text-slate-100;
 }
 
-/* Custom scrollbar */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
+
+::-webkit-scrollbar-track {
+  @apply bg-slate-100;
+}
+
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 8px;
+  @apply bg-slate-400 rounded-full;
 }
 
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-slate-500;
+}
+
+/* Application Layout */
+.app-container {
+  @apply min-h-screen flex bg-slate-100;
+}
+
+.main-content {
+  @apply flex-1 p-6 overflow-y-auto;
+}
+
+/* Dashboard Cards */
 .card {
-  @apply bg-white rounded-xl shadow-sm border border-slate-200 p-5;
+  @apply bg-white rounded-2xl border border-slate-200 shadow-md p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
 }
 
+.dark .card {
+  @apply bg-slate-800 border-slate-700;
+}
+
+/* Statistics Cards */
+.stat-card {
+  @apply card flex flex-col gap-2;
+}
+
+.stat-value {
+  @apply text-3xl font-bold text-primary;
+}
+
+.stat-label {
+  @apply text-sm text-slate-500;
+}
+
+/* Buttons */
 .btn-primary {
-  @apply bg-primary text-white px-4 py-2 rounded-lg font-medium hover:bg-indigo-700 transition disabled:opacity-50;
+  @apply bg-indigo-600 text-white px-5 py-2.5 rounded-xl font-medium shadow-sm hover:bg-indigo-700 hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed;
 }
 
 .btn-secondary {
-  @apply bg-secondary text-white px-4 py-2 rounded-lg font-medium hover:bg-emerald-600 transition;
+  @apply bg-emerald-500 text-white px-5 py-2.5 rounded-xl font-medium shadow-sm hover:bg-emerald-600 hover:shadow-lg transition-all duration-300;
 }
 
+.btn-danger {
+  @apply bg-red-500 text-white px-5 py-2.5 rounded-xl font-medium hover:bg-red-600 transition-all;
+}
+
+/* Inputs */
 .input-field {
-  @apply w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary;
+  @apply w-full border border-slate-300 bg-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition;
 }
 
+.dark .input-field {
+  @apply bg-slate-700 border-slate-600 text-white;
+}
+
+/* Sidebar */
+.sidebar {
+  @apply w-64 bg-white border-r border-slate-200 min-h-screen shadow-sm;
+}
+
+.dark .sidebar {
+  @apply bg-slate-800 border-slate-700;
+}
+
+.sidebar-link {
+  @apply flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 transition;
+}
+
+.sidebar-link.active {
+  @apply bg-indigo-100 text-indigo-700 font-semibold;
+}
+
+/* Navbar */
+.navbar {
+  @apply bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between sticky top-0 z-20;
+}
+
+.dark .navbar {
+  @apply bg-slate-800 border-slate-700;
+}
+
+/* Tables */
+.table-container {
+  @apply overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm;
+}
+
+.table {
+  @apply w-full text-left;
+}
+
+.table th {
+  @apply bg-slate-50 px-4 py-3 text-sm font-semibold;
+}
+
+.table td {
+  @apply px-4 py-3 border-t border-slate-100;
+}
+
+/* Badges */
 .badge {
-  @apply text-xs font-medium px-2 py-1 rounded-full;
+  @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold;
 }
 
 .badge-easy {
   @apply bg-emerald-100 text-emerald-700;
 }
+
 .badge-medium {
   @apply bg-amber-100 text-amber-700;
 }
+
 .badge-hard {
   @apply bg-red-100 text-red-700;
+}
+
+/* Quiz Cards */
+.quiz-card {
+  @apply card cursor-pointer hover:border-indigo-500;
+}
+
+/* Coding Problem Cards */
+.problem-card {
+  @apply card hover:border-emerald-500;
+}
+
+/* Progress Bars */
+.progress-bar {
+  @apply w-full h-3 bg-slate-200 rounded-full overflow-hidden;
+}
+
+.progress-fill {
+  @apply h-full bg-indigo-600 rounded-full;
+}
+
+/* Login/Register Page */
+.auth-container {
+  @apply min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-600 via-blue-500 to-cyan-400;
+}
+
+.auth-card {
+  @apply bg-white w-full max-w-md rounded-3xl shadow-2xl p-8;
+}
+
+.dark .auth-card {
+  @apply bg-slate-800;
+}
+
+/* Page Headings */
+.page-title {
+  @apply text-3xl font-bold mb-2;
+}
+
+.page-subtitle {
+  @apply text-slate-500 mb-6;
 }
