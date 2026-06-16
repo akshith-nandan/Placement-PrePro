@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-const Login = () => {
+export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -10,77 +10,110 @@ const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    setError('');
-    setLoading(true);
+    setError(''); setLoading(true);
     try {
       await login(email, password);
       navigate('/');
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed');
-    } finally {
-      setLoading(false);
-    }
+      setError(err.response?.data?.message || 'Invalid email or password');
+    } finally { setLoading(false); }
   };
 
   return (
-    <div className="min-h-screen flex">
+    <div className="auth-wrap">
       {/* Left branding panel */}
-      <div className="hidden md:flex md:w-1/2 bg-primary text-white flex-col items-center justify-center p-12">
-        <span className="text-5xl mb-4">🎯</span>
-        <h1 className="text-3xl font-bold mb-2">PlacementPro</h1>
-        <p className="text-indigo-100 text-center max-w-sm">
-          "Success in placements isn't about luck — it's about consistent preparation."
-        </p>
+      <div className="auth-panel">
+        <div className="auth-panel-inner">
+          <div className="auth-panel-logo">🎯</div>
+          <h1 className="auth-panel-title">
+            <span>Placement</span><br />
+            <span style={{ color: 'var(--text)' }}>Pro</span>
+          </h1>
+          <p className="auth-panel-desc">
+            Your all-in-one platform to crack campus placements with confidence.
+          </p>
+
+          <div style={{ marginBottom: 28 }}>
+            {[
+              '500+ Aptitude questions with explanations',
+              'LeetCode-style coding practice',
+              'Company-specific preparation packs',
+              'AI-powered resume builder with ATS score',
+            ].map((f, i) => (
+              <div key={i} className="auth-feature">
+                <div className="auth-feature-dot" />
+                {f}
+              </div>
+            ))}
+          </div>
+
+          <div className="auth-stats">
+            {[['500+','Questions'],['50+','Companies'],['10K+','Students']].map(([v,l]) => (
+              <div key={l} style={{ textAlign: 'center' }}>
+                <div className="auth-stat-val">{v}</div>
+                <div className="auth-stat-lbl">{l}</div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
-      {/* Right form panel */}
-      <div className="flex-1 flex items-center justify-center p-6">
-        <div className="w-full max-w-md">
-          <h2 className="text-2xl font-bold mb-1">Welcome back</h2>
-          <p className="text-slate-500 mb-6">Login to continue your placement prep journey.</p>
+      {/* Right form */}
+      <div className="auth-form-wrap">
+        <div className="auth-form">
+          <h2 className="auth-form-title">Welcome back 👋</h2>
+          <p className="auth-form-sub">Login to continue your prep journey.</p>
 
-          {error && <div className="bg-red-50 text-red-600 text-sm rounded-lg p-3 mb-4">{error}</div>}
+          {error && (
+            <div className="auth-error">
+              <i className="fas fa-circle-exclamation" />
+              {error}
+            </div>
+          )}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium mb-1">Email</label>
-              <input
-                type="email"
-                required
-                className="input-field"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@example.com"
-              />
+          <form onSubmit={handleSubmit}>
+            <div className="field">
+              <label>Email Address</label>
+              <div className="input-icon">
+                <i className="fas fa-envelope" />
+                <input
+                  className="input" type="email" required
+                  placeholder="you@example.com"
+                  value={email} onChange={e => setEmail(e.target.value)}
+                />
+              </div>
             </div>
-            <div>
-              <label className="block text-sm font-medium mb-1">Password</label>
-              <input
-                type="password"
-                required
-                className="input-field"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-              />
+            <div className="field">
+              <label>Password</label>
+              <div className="input-icon">
+                <i className="fas fa-lock" />
+                <input
+                  className="input" type="password" required
+                  placeholder="••••••••"
+                  value={password} onChange={e => setPassword(e.target.value)}
+                />
+              </div>
             </div>
-            <button type="submit" disabled={loading} className="btn-primary w-full">
-              {loading ? 'Logging in...' : 'Login'}
+
+            <button
+              type="submit" disabled={loading}
+              className="btn btn-primary btn-lg w-full"
+              style={{ justifyContent: 'center', marginTop: 8 }}
+            >
+              {loading
+                ? <><i className="fas fa-spinner fa-spin" /> Logging in...</>
+                : <><i className="fas fa-right-to-bracket" /> Login</>
+              }
             </button>
           </form>
 
-          <p className="text-sm text-slate-500 mt-6 text-center">
-            Don't have an account?{' '}
-            <Link to="/register" className="text-primary font-medium">
-              Register
-            </Link>
-          </p>
+          <div className="auth-switch">
+            Don't have an account? <Link to="/register">Create one</Link>
+          </div>
         </div>
       </div>
     </div>
   );
-};
-
-export default Login;
+}

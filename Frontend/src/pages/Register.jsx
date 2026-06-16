@@ -2,113 +2,121 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-const Register = () => {
-  const [form, setForm] = useState({
-    name: '',
-    email: '',
-    password: '',
-    college: '',
-    branch: '',
-    year: '',
-    placementGoal: ''
-  });
+export default function Register() {
+  const [form, setForm] = useState({ name:'',email:'',password:'',college:'',branch:'',year:'',placementGoal:'' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { register } = useAuth();
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  const change = e => setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
-    setLoading(true);
-    try {
-      await register(form);
-      navigate('/');
-    } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed');
-    } finally {
-      setLoading(false);
-    }
+  const handleSubmit = async e => {
+    e.preventDefault(); setError(''); setLoading(true);
+    try { await register(form); navigate('/'); }
+    catch (err) { setError(err.response?.data?.message || 'Registration failed'); }
+    finally { setLoading(false); }
   };
 
   return (
-    <div className="min-h-screen flex">
-      <div className="hidden md:flex md:w-1/2 bg-primary text-white flex-col items-center justify-center p-12">
-        <span className="text-5xl mb-4">🚀</span>
-        <h1 className="text-3xl font-bold mb-2">Join PlacementPro</h1>
-        <p className="text-indigo-100 text-center max-w-sm">
-          Track your progress across aptitude, coding, and interviews — all in one place.
-        </p>
+    <div className="auth-wrap">
+      <div className="auth-panel">
+        <div className="auth-panel-inner">
+          <div className="auth-panel-logo">🚀</div>
+          <h1 className="auth-panel-title">
+            <span>Join</span><br />
+            <span style={{ color: 'var(--text)' }}>PlacementPro</span>
+          </h1>
+          <p className="auth-panel-desc">
+            Track your progress, solve problems, and land your dream placement.
+          </p>
+          <div className="auth-stats" style={{ marginTop: 32 }}>
+            {[['#1','Prep Portal'],['Free','Forever'],['AI','Powered']].map(([v,l]) => (
+              <div key={l} style={{ textAlign:'center' }}>
+                <div className="auth-stat-val">{v}</div>
+                <div className="auth-stat-lbl">{l}</div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
-      <div className="flex-1 flex items-center justify-center p-6">
-        <div className="w-full max-w-md">
-          <h2 className="text-2xl font-bold mb-1">Create your account</h2>
-          <p className="text-slate-500 mb-6">Start your placement preparation today.</p>
+      <div className="auth-form-wrap">
+        <div className="auth-form">
+          <h2 className="auth-form-title">Create Account</h2>
+          <p className="auth-form-sub">Start your placement preparation today.</p>
 
-          {error && <div className="bg-red-50 text-red-600 text-sm rounded-lg p-3 mb-4">{error}</div>}
+          {error && (
+            <div className="auth-error">
+              <i className="fas fa-circle-exclamation" />{error}
+            </div>
+          )}
 
-          <form onSubmit={handleSubmit} className="space-y-3">
-            <div>
-              <label className="block text-sm font-medium mb-1">Full Name</label>
-              <input name="name" required className="input-field" value={form.name} onChange={handleChange} placeholder="John Doe" />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1">Email</label>
-              <input name="email" type="email" required className="input-field" value={form.email} onChange={handleChange} placeholder="you@example.com" />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1">Password</label>
-              <input name="password" type="password" required minLength={6} className="input-field" value={form.password} onChange={handleChange} placeholder="At least 6 characters" />
-            </div>
-
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="block text-sm font-medium mb-1">College</label>
-                <input name="college" className="input-field" value={form.college} onChange={handleChange} placeholder="Your college" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Branch</label>
-                <input name="branch" className="input-field" value={form.branch} onChange={handleChange} placeholder="e.g. CSE" />
+          <form onSubmit={handleSubmit}>
+            <div className="field">
+              <label>Full Name</label>
+              <div className="input-icon">
+                <i className="fas fa-user" />
+                <input className="input" name="name" required placeholder="John Doe" value={form.name} onChange={change} />
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="field">
+              <label>Email</label>
+              <div className="input-icon">
+                <i className="fas fa-envelope" />
+                <input className="input" name="email" type="email" required placeholder="you@example.com" value={form.email} onChange={change} />
+              </div>
+            </div>
+
+            <div className="field">
+              <label>Password</label>
+              <div className="input-icon">
+                <i className="fas fa-lock" />
+                <input className="input" name="password" type="password" required minLength={6} placeholder="At least 6 characters" value={form.password} onChange={change} />
+              </div>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 16 }}>
               <div>
-                <label className="block text-sm font-medium mb-1">Year</label>
-                <select name="year" className="input-field" value={form.year} onChange={handleChange}>
+                <label className="field" style={{ display:'block', fontSize:12, fontWeight:600, color:'var(--text2)', marginBottom:6 }}>College</label>
+                <input className="input" name="college" placeholder="Your college" value={form.college} onChange={change} />
+              </div>
+              <div>
+                <label className="field" style={{ display:'block', fontSize:12, fontWeight:600, color:'var(--text2)', marginBottom:6 }}>Branch</label>
+                <input className="input" name="branch" placeholder="e.g. CSE" value={form.branch} onChange={change} />
+              </div>
+              <div>
+                <label style={{ display:'block', fontSize:12, fontWeight:600, color:'var(--text2)', marginBottom:6 }}>Year</label>
+                <select className="input" name="year" value={form.year} onChange={change}>
                   <option value="">Select year</option>
-                  <option value="1st Year">1st Year</option>
-                  <option value="2nd Year">2nd Year</option>
-                  <option value="3rd Year">3rd Year</option>
-                  <option value="Final Year">Final Year</option>
+                  <option>1st Year</option><option>2nd Year</option>
+                  <option>3rd Year</option><option>Final Year</option>
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Placement Goal</label>
-                <input name="placementGoal" className="input-field" value={form.placementGoal} onChange={handleChange} placeholder="e.g. SDE Role" />
+                <label style={{ display:'block', fontSize:12, fontWeight:600, color:'var(--text2)', marginBottom:6 }}>Goal</label>
+                <input className="input" name="placementGoal" placeholder="e.g. SDE at FAANG" value={form.placementGoal} onChange={change} />
               </div>
             </div>
 
-            <button type="submit" disabled={loading} className="btn-primary w-full">
-              {loading ? 'Creating account...' : 'Register'}
+            <button
+              type="submit" disabled={loading}
+              className="btn btn-primary btn-lg w-full"
+              style={{ justifyContent: 'center' }}
+            >
+              {loading
+                ? <><i className="fas fa-spinner fa-spin" /> Creating...</>
+                : <><i className="fas fa-user-plus" /> Create Account</>
+              }
             </button>
           </form>
 
-          <p className="text-sm text-slate-500 mt-6 text-center">
-            Already have an account?{' '}
-            <Link to="/login" className="text-primary font-medium">
-              Login
-            </Link>
-          </p>
+          <div className="auth-switch">
+            Already have an account? <Link to="/login">Login</Link>
+          </div>
         </div>
       </div>
     </div>
   );
-};
-
-export default Register;
+}

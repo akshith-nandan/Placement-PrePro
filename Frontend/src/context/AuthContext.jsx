@@ -10,15 +10,11 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const init = async () => {
       const token = localStorage.getItem('token');
-      const storedUser = localStorage.getItem('user');
-      if (token && storedUser) {
-        setUser(JSON.parse(storedUser));
+      if (token) {
         try {
           const { data } = await api.get('/auth/profile');
           setUser(data);
-        } catch (err) {
-          // token invalid, interceptor will handle redirect
-        }
+        } catch { localStorage.clear(); }
       }
       setLoading(false);
     };
@@ -28,22 +24,19 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     const { data } = await api.post('/auth/login', { email, password });
     localStorage.setItem('token', data.token);
-    localStorage.setItem('user', JSON.stringify(data));
     setUser(data);
     return data;
   };
 
-  const register = async (formData) => {
-    const { data } = await api.post('/auth/register', formData);
+  const register = async (form) => {
+    const { data } = await api.post('/auth/register', form);
     localStorage.setItem('token', data.token);
-    localStorage.setItem('user', JSON.stringify(data));
     setUser(data);
     return data;
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    localStorage.clear();
     setUser(null);
   };
 

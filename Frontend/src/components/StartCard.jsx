@@ -1,24 +1,54 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
-const StatCard = ({ icon, label, value, color = 'indigo' }) => {
-  const colorMap = {
-    indigo: 'bg-indigo-50 text-primary',
-    emerald: 'bg-emerald-50 text-secondary',
-    amber: 'bg-amber-50 text-accent',
-    red: 'bg-red-50 text-danger'
-  };
+const titles = {
+  '/': 'Dashboard', '/aptitude': 'Aptitude Prep',
+  '/coding': 'Coding Practice', '/compiler': 'Online Compiler',
+  '/companies': 'Company Prep', '/mocktests': 'Mock Tests',
+  '/materials': 'Study Materials', '/interview': 'Interview Prep',
+  '/resume': 'Resume Builder', '/profile': 'My Profile',
+};
+
+export default function Topbar() {
+  const { user } = useAuth();
+  const { pathname } = useLocation();
+  const base = '/' + pathname.split('/')[1];
+  const title = titles[base] || 'PlacementPro';
 
   return (
-    <div className="card flex items-center gap-4">
-      <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl ${colorMap[color]}`}>
-        {icon}
+    <div className="topbar">
+      <div className="topbar-left">
+        <span className="page-title">{title}</span>
       </div>
-      <div>
-        <p className="text-sm text-slate-500">{label}</p>
-        <p className="text-2xl font-bold text-slate-800">{value}</p>
+      <div className="topbar-right">
+        <div className="search-box">
+          <i className="fas fa-search" />
+          <input placeholder="Search topics, problems..." />
+        </div>
+
+        {user?.streakCount > 0 && (
+          <div className="streak-chip">
+            🔥 {user.streakCount} day streak
+          </div>
+        )}
+
+        <div className="topbar-btn" title="Notifications">
+          <i className="fas fa-bell" />
+          <span className="notif-dot" />
+        </div>
+
+        <div
+          style={{
+            width: 34, height: 34, borderRadius: '50%',
+            background: 'linear-gradient(135deg,#7c6af7,#a855f7)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontWeight: 700, fontSize: 13, cursor: 'pointer',
+          }}
+        >
+          {user?.name?.charAt(0).toUpperCase() || 'U'}
+        </div>
       </div>
     </div>
   );
-};
-
-export default StatCard;
+}
