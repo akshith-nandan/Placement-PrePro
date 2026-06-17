@@ -10,6 +10,7 @@ import Aptitude from './pages/Apptitude';
 import AptitudeTest from './pages/ApptitudeTest';
 import Coding from './pages/Coding';
 import CodingProblem from './pages/CodingProblem';
+import Compiler from './pages/Compiler';
 import Companies from './pages/Companies';
 import CompanyDetail from './pages/CompanyDetail';
 import MockTests from './pages/MockTests';
@@ -34,6 +35,7 @@ function App() {
 
       <Route path="/coding" element={<ProtectedRoute><Coding /></ProtectedRoute>} />
       <Route path="/coding/:slug" element={<ProtectedRoute><CodingProblem /></ProtectedRoute>} />
+      <Route path="/compiler" element={<ProtectedRoute><Compiler /></ProtectedRoute>} />
 
       <Route path="/companies" element={<ProtectedRoute><Companies /></ProtectedRoute>} />
       <Route path="/companies/:name" element={<ProtectedRoute><CompanyDetail /></ProtectedRoute>} />
