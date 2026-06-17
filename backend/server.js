@@ -16,7 +16,9 @@ const resumeRoutes = require('./routes/resumeRoutes');
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: ['https://prepro-jlua20vub-akshiths-projects-07d89de5.vercel.app', 'http://localhost:3000']
+}));
 app.use(express.json());
 
 // Connect to MongoDB
