@@ -16,9 +16,9 @@ const resumeRoutes = require('./routes/resumeRoutes');
 const app = express();
 
 // Middleware
-app.use(cors({
-  origin: ['https://prepro-ten.vercel.app/', 'http://localhost:3000', 'http://localhost:3001']
-}));
+app.use( cors({
+    origin: "*",
+  }));
 app.use(express.json());
 
 // Connect to MongoDB
