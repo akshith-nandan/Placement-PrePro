@@ -1,6 +1,6 @@
 const express = require('express');
 const { MockTest, MockTestResult } = require('../models/MockTest');
-const AptitudeQuestion = require('../models/AptitudeQuestion');
+const AptitudeQuestion = require('../models/ApptitudeQuestions');
 const User = require('../models/User');
 const { protect } = require('../middleware/authMiddleware');
 
