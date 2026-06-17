@@ -17,7 +17,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: ['https://prepro-jlua20vub-akshiths-projects-07d89de5.vercel.app', 'http://localhost:3000']
+  origin: ['https://prepro-ten.vercel.app/', 'http://localhost:3000', 'http://localhost:3001']
 }));
 app.use(express.json());
 
