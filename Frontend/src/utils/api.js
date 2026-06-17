@@ -1,5 +1,5 @@
 import axios from 'axios';
-const api = axios.create({ baseURL: 'https://placement-prepro.onrender.com/api' });
+const api = axios.create({ baseURL: ' https://placement-prepro-1.onrender.com/api' }); 
 //  const api = axios.create({ baseURL: 'http://localhost:5000/api' });
 
 api.interceptors.request.use(cfg => {
